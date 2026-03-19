@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Exact VS Code Dark+ colors */
+    --bg-editor: #1e1e1e;
+    --bg-sidebar: #252526;
+    --bg-titlebar: #323233;
+    --bg-input: #3c3c3c;
+    --bg-hover: #2a2d2e;
+    --bg-active: #37373d;
+    --bg-selected: #04395e;
+    --bg-statusbar: #007acc;
+    --bg-dropdown: #252526;
+
+    --border: #1e1e1e;
+    --border-input: #3c3c3c;
+    --border-focus: #007fd4;
+
+    --text: #cccccc;
+    --text-active: #ffffff;
+    --text-dim: #969696;
+    --text-faint: #6e7681;
+    --text-ghost: #4d4d4d;
+
+    --accent: #007acc;
+    --green: #89d185;
+    --red: #f14c4c;
+    --yellow: #cca700;
+    --purple: #c586c0;
+    --cyan: #4ec9b0;
+    --orange: #ce9178;
+  }
+
+  html, body, #root {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-editor);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: #264f78;
+    color: #ffffff;
+  }
+
+  button, [role="button"], a { cursor: pointer; }
+}
+
+/* Scrollbar — outside layers so it always applies */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: transparent; border-radius: 5px; }
+::-webkit-scrollbar-corner { background: transparent; }
+*:hover > ::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover { background: rgba(121, 121, 121, 0.4); }
+::-webkit-scrollbar-thumb:active { background: rgba(121, 121, 121, 0.5); }
+
+/* Thin scrollbar for sidebar and terminal */
+.thin-scroll::-webkit-scrollbar { width: 5px; }
+.thin-scroll::-webkit-scrollbar-thumb { border-radius: 3px; }
+
+.xterm .xterm-viewport::-webkit-scrollbar { width: 5px !important; }
+.xterm .xterm-viewport::-webkit-scrollbar-track { background: transparent !important; }
+.xterm .xterm-viewport::-webkit-scrollbar-thumb { background: rgba(121, 121, 121, 0.3) !important; border-radius: 3px !important; }
+.xterm .xterm-viewport::-webkit-scrollbar-thumb:hover { background: rgba(121, 121, 121, 0.5) !important; }

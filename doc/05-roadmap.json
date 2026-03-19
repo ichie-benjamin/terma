@@ -1,0 +1,302 @@
+{
+  "project": "Terma",
+  "description": "Lightweight, project-aware terminal multiplexer",
+  "repository": "github.com/terma-app/terma",
+  "license": "MIT",
+  "milestones": [
+    {
+      "version": "0.1.0",
+      "name": "MVP — Core Terminal",
+      "status": "planned",
+      "target": "2026-Q2",
+      "description": "Basic working app: projects, sessions, terminal rendering",
+      "features": [
+        {
+          "id": "F001",
+          "name": "Tauri + React scaffold",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Initialize Tauri v2 project with React + TypeScript + Tailwind"
+        },
+        {
+          "id": "F002",
+          "name": "PTY manager",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Rust PTY manager using portable-pty: spawn, read, write, resize, kill"
+        },
+        {
+          "id": "F003",
+          "name": "xterm.js integration",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Terminal rendering with xterm.js, connected to PTY via Tauri IPC"
+        },
+        {
+          "id": "F004",
+          "name": "Sidebar project tree",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Sidebar with project list, session list, add/remove/rename"
+        },
+        {
+          "id": "F005",
+          "name": "Session switching",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Click session in sidebar to switch active terminal"
+        },
+        {
+          "id": "F006",
+          "name": "Config persistence",
+          "priority": "high",
+          "status": "planned",
+          "description": "Save/load project layout from ~/.terma/config.json"
+        },
+        {
+          "id": "F007",
+          "name": "Keyboard shortcuts",
+          "priority": "high",
+          "status": "planned",
+          "description": "Cmd+N, Cmd+W, Cmd+1-9, Cmd+Up/Down for navigation"
+        },
+        {
+          "id": "F008",
+          "name": "Dark theme",
+          "priority": "high",
+          "status": "planned",
+          "description": "Default dark theme with Catppuccin-inspired colors"
+        }
+      ]
+    },
+    {
+      "version": "0.2.0",
+      "name": "Polish — UX Refinements",
+      "status": "planned",
+      "target": "2026-Q2",
+      "description": "Quality-of-life features and UX polish",
+      "features": [
+        {
+          "id": "F009",
+          "name": "Quick switch (Cmd+P)",
+          "priority": "high",
+          "status": "planned",
+          "description": "Fuzzy finder popup for fast session switching across projects"
+        },
+        {
+          "id": "F010",
+          "name": "Context menus",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Right-click context menus on projects and sessions"
+        },
+        {
+          "id": "F011",
+          "name": "Drag and drop reorder",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Reorder sessions within projects and projects in sidebar"
+        },
+        {
+          "id": "F012",
+          "name": "Project colors",
+          "priority": "low",
+          "status": "planned",
+          "description": "Assign accent colors to projects for visual grouping"
+        },
+        {
+          "id": "F013",
+          "name": "Sidebar resize",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Draggable divider between sidebar and terminal panel"
+        },
+        {
+          "id": "F014",
+          "name": "Confirm on close",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Warn before closing a session with a running process"
+        },
+        {
+          "id": "F015",
+          "name": "Window state persistence",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Remember window size and position between launches"
+        }
+      ]
+    },
+    {
+      "version": "0.3.0",
+      "name": "Customization — Settings & Themes",
+      "status": "planned",
+      "target": "2026-Q3",
+      "description": "User-facing settings and theme support",
+      "features": [
+        {
+          "id": "F016",
+          "name": "Settings panel",
+          "priority": "high",
+          "status": "planned",
+          "description": "In-app settings UI for font, theme, shell, shortcuts"
+        },
+        {
+          "id": "F017",
+          "name": "Light theme",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Light theme option with Catppuccin Latte colors"
+        },
+        {
+          "id": "F018",
+          "name": "Custom themes",
+          "priority": "low",
+          "status": "planned",
+          "description": "Load custom theme JSON files from ~/.terma/themes/"
+        },
+        {
+          "id": "F019",
+          "name": "Per-session shell override",
+          "priority": "low",
+          "status": "planned",
+          "description": "Allow different shells per session (bash, zsh, fish, etc.)"
+        },
+        {
+          "id": "F020",
+          "name": "Configurable keybindings",
+          "priority": "low",
+          "status": "planned",
+          "description": "Allow users to customize keyboard shortcuts"
+        }
+      ]
+    },
+    {
+      "version": "0.4.0",
+      "name": "Power User — Advanced Features",
+      "status": "planned",
+      "target": "2026-Q3",
+      "description": "Features for power users and productivity",
+      "features": [
+        {
+          "id": "F021",
+          "name": "Split panes",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Split terminal panel horizontally or vertically within a session"
+        },
+        {
+          "id": "F022",
+          "name": "Search in terminal",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Cmd+F to search terminal scrollback buffer"
+        },
+        {
+          "id": "F023",
+          "name": "Session templates",
+          "priority": "low",
+          "status": "planned",
+          "description": "Save a project's session layout as a template, apply to new projects"
+        },
+        {
+          "id": "F024",
+          "name": "Startup commands",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Auto-run a command when a session starts (e.g., 'npm run dev')"
+        },
+        {
+          "id": "F025",
+          "name": "Session status indicators",
+          "priority": "low",
+          "status": "planned",
+          "description": "Show if a process is running, exited, or errored in the sidebar"
+        }
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "name": "Stable Release",
+      "status": "planned",
+      "target": "2026-Q4",
+      "description": "Production-ready release with cross-platform support",
+      "features": [
+        {
+          "id": "F026",
+          "name": "macOS build + notarization",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Signed and notarized macOS build (.dmg)"
+        },
+        {
+          "id": "F027",
+          "name": "Windows build",
+          "priority": "critical",
+          "status": "planned",
+          "description": "Windows installer (.msi) with WebView2"
+        },
+        {
+          "id": "F028",
+          "name": "Linux build",
+          "priority": "high",
+          "status": "planned",
+          "description": "Linux packages (.deb, .AppImage)"
+        },
+        {
+          "id": "F029",
+          "name": "Auto-updater",
+          "priority": "high",
+          "status": "planned",
+          "description": "In-app update notifications and download via Tauri updater"
+        },
+        {
+          "id": "F030",
+          "name": "Homebrew formula",
+          "priority": "medium",
+          "status": "planned",
+          "description": "Install via 'brew install terma'"
+        },
+        {
+          "id": "F031",
+          "name": "Comprehensive test suite",
+          "priority": "high",
+          "status": "planned",
+          "description": "Unit tests (Rust), component tests (React), integration tests"
+        }
+      ]
+    }
+  ],
+  "future_ideas": [
+    {
+      "id": "FI001",
+      "name": "SSH remote sessions",
+      "description": "Connect to remote servers and group remote sessions by host"
+    },
+    {
+      "id": "FI002",
+      "name": "Plugin system",
+      "description": "Extend Terma with community plugins (themes, status bar widgets, etc.)"
+    },
+    {
+      "id": "FI003",
+      "name": "Session sharing",
+      "description": "Share a terminal session with a teammate (read-only or collaborative)"
+    },
+    {
+      "id": "FI004",
+      "name": "AI integration",
+      "description": "Inline AI assistant for command suggestions and error explanations"
+    },
+    {
+      "id": "FI005",
+      "name": "Workspace files",
+      "description": ".terma.json workspace files in project dirs for team-shared layouts"
+    },
+    {
+      "id": "FI006",
+      "name": "Notifications",
+      "description": "OS notifications when a long-running command completes in a background session"
+    }
+  ]
+}
