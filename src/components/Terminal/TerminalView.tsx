@@ -134,6 +134,10 @@ export default function TerminalView({ sessionId, cwd, isActive }: TerminalViewP
       .then((content) => {
         if (content) {
           term.write(content);
+          // Restored buffers can capture a TUI mid-run (alt-screen, bracketed
+          // paste, focus reporting). Reset those modes + SGR so leftover state
+          // can't bleed into the fresh shell (e.g. as stray control chars).
+          term.write("\x1b[?1049l\x1b[?2004l\x1b[?1004l\x1b[?25h\x1b[0m");
           term.write("\r\n\x1b[90m─── session restored ───\x1b[0m\r\n");
         }
         restored = true;
@@ -159,6 +163,11 @@ export default function TerminalView({ sessionId, cwd, isActive }: TerminalViewP
     }).then((fn) => {
       unlistenExit = fn;
     });
+
+    // Spawn this session's shell now that the view is mounted. Mounting is lazy
+    // (see TerminalPanel), so only opened sessions get a PTY — not all of them
+    // at once on startup.
+    invoke("create_session", { sessionId, cwd }).catch(console.error);
 
     // ResizeObserver for container. Debounced so a continuous drag-resize
     // collapses into a single fit() once movement settles, and skipped for

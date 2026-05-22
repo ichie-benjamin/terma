@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { useAppState } from "../../context/AppContext";
-import { usePty } from "../../hooks/usePty";
 import type { Project } from "../../types";
 import SessionItem from "./SessionItem";
 
@@ -10,7 +9,6 @@ interface ProjectItemProps {
 
 export default function ProjectItem({ project }: ProjectItemProps) {
   const { state, dispatch } = useAppState();
-  const { createSession } = usePty();
   const [editing, setEditing] = useState(false);
   const [editName, setEditName] = useState(project.name);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +27,7 @@ export default function ProjectItem({ project }: ProjectItemProps) {
     e.stopPropagation();
     const sessionId = crypto.randomUUID();
     dispatch({ type: "ADD_SESSION", projectId: project.id, session: { id: sessionId, name: `session ${project.sessions.length + 1}`, createdAt: new Date().toISOString() } });
-    await createSession(sessionId, project.path);
+    // Switch instantly; the TerminalView spawns the PTY when it mounts.
     dispatch({ type: "SET_ACTIVE_SESSION", sessionId });
   };
 

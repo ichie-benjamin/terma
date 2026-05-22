@@ -27,7 +27,7 @@ export function useConfig() {
     loaded.current = true;
 
     invoke<TermaConfig>("load_config")
-      .then(async (config) => {
+      .then((config) => {
         dispatch({
           type: "LOAD_STATE",
           state: {
@@ -37,18 +37,10 @@ export function useConfig() {
           },
         });
 
-        // Re-create PTY sessions for all restored projects
-        for (const project of config.projects) {
-          for (const session of project.sessions) {
-            try {
-              await invoke("create_session", { sessionId: session.id, cwd: project.path });
-            } catch (err) {
-              console.error(`Failed to restore session ${session.id}:`, err);
-            }
-          }
-        }
-
-        // Set the first session as active if none is set
+        // Don't spawn shells for every saved session up front — that freezes
+        // startup when there are many. Each TerminalView spawns its own PTY when
+        // it mounts, and sessions mount lazily on first open. We just pick an
+        // initial active session so one terminal is ready immediately.
         const allSessions = config.projects.flatMap((p) => p.sessions);
         if (allSessions.length > 0) {
           dispatch({ type: "SET_ACTIVE_SESSION", sessionId: allSessions[0].id });

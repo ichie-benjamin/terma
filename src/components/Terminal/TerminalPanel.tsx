@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useAppState } from "../../context/AppContext";
 import TerminalHeader from "./TerminalHeader";
 import TerminalView from "./TerminalView";
@@ -8,6 +9,13 @@ export default function TerminalPanel() {
   const allSessions = state.projects.flatMap((p) =>
     p.sessions.map((s) => ({ projectId: p.id, session: s, cwd: p.path })),
   );
+
+  // Lazily mount terminals: only sessions the user has actually opened get a
+  // TerminalView (and thus a spawned shell). Once opened, a session stays
+  // mounted so switching back is instant and its PTY keeps running. This keeps
+  // startup fast even with many saved sessions, instead of spawning all of them.
+  const openedRef = useRef<Set<string>>(new Set());
+  if (state.activeSessionId) openedRef.current.add(state.activeSessionId);
 
   if (allSessions.length === 0) {
     return (
@@ -53,14 +61,16 @@ export default function TerminalPanel() {
     <div className="flex flex-1 flex-col overflow-hidden bg-[var(--bg-sidebar)]">
       <TerminalHeader />
       <div className="relative flex-1 rounded-tl-[14px] overflow-hidden bg-[var(--bg-editor)]">
-        {allSessions.map(({ session, cwd }) => (
-          <TerminalView
-            key={session.id}
-            sessionId={session.id}
-            cwd={cwd}
-            isActive={session.id === state.activeSessionId}
-          />
-        ))}
+        {allSessions
+          .filter(({ session }) => openedRef.current.has(session.id))
+          .map(({ session, cwd }) => (
+            <TerminalView
+              key={session.id}
+              sessionId={session.id}
+              cwd={cwd}
+              isActive={session.id === state.activeSessionId}
+            />
+          ))}
       </div>
     </div>
   );

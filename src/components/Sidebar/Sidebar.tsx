@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useAppState } from "../../context/AppContext";
-import { usePty } from "../../hooks/usePty";
 import ProjectItem from "./ProjectItem";
 
 const PROJECT_COLORS = [
@@ -11,7 +10,6 @@ const PROJECT_COLORS = [
 
 export default function Sidebar() {
   const { state, dispatch } = useAppState();
-  const { createSession } = usePty();
   const [filter, setFilter] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
   const filterRef = useRef<HTMLInputElement>(null);
@@ -35,7 +33,7 @@ export default function Sidebar() {
 
     const sessionId = crypto.randomUUID();
     dispatch({ type: "ADD_SESSION", projectId, session: { id: sessionId, name: "session 1", createdAt: new Date().toISOString() } });
-    await createSession(sessionId, path);
+    // Switch instantly; the TerminalView spawns the PTY when it mounts.
     dispatch({ type: "SET_ACTIVE_SESSION", sessionId });
   };
 

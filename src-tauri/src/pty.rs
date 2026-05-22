@@ -43,11 +43,25 @@ impl PtyManager {
         }
     }
 
+    /// Spawns a shell for `session_id`. Returns `Ok(None)` if a session with
+    /// that id already exists, so callers don't start a duplicate reader thread.
+    /// Idempotency matters because React StrictMode mounts views twice in dev,
+    /// and a second spawn would drop the live PTY — closing its master sends the
+    /// shell EOF (a stray `^D`) and kicks off a restart loop.
     pub fn create_session(
         &self,
         session_id: &str,
         cwd: &str,
-    ) -> Result<Box<dyn Read + Send>, String> {
+    ) -> Result<Option<Box<dyn Read + Send>>, String> {
+        if self
+            .sessions
+            .lock()
+            .map_err(|e| e.to_string())?
+            .contains_key(session_id)
+        {
+            return Ok(None);
+        }
+
         let pty_system = native_pty_system();
 
         let pair = pty_system
@@ -88,7 +102,7 @@ impl PtyManager {
             .map_err(|e| e.to_string())?
             .insert(session_id.to_string(), session);
 
-        Ok(reader)
+        Ok(Some(reader))
     }
 
     pub fn write_to_session(&self, session_id: &str, data: &[u8]) -> Result<(), String> {

@@ -4,7 +4,7 @@ import { usePty } from "./usePty";
 
 export function useKeyboardShortcuts() {
   const { state, dispatch } = useAppState();
-  const { createSession, closeSession } = usePty();
+  const { closeSession } = usePty();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -49,9 +49,8 @@ export function useKeyboardShortcuts() {
           createdAt: new Date().toISOString(),
         };
         dispatch({ type: "ADD_SESSION", projectId: activeProjectId, session });
-        createSession(sessionId, project.path).then(() => {
-          dispatch({ type: "SET_ACTIVE_SESSION", sessionId });
-        });
+        // Switch immediately; the TerminalView spawns the PTY when it mounts.
+        dispatch({ type: "SET_ACTIVE_SESSION", sessionId });
         return;
       }
 
@@ -129,5 +128,5 @@ export function useKeyboardShortcuts() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [state, dispatch, createSession, closeSession]);
+  }, [state, dispatch, closeSession]);
 }
