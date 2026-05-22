@@ -6,6 +6,7 @@ import StatusBar from "./components/StatusBar";
 import QuickSwitch from "./components/QuickSwitch";
 import { useConfig } from "./hooks/useConfig";
 import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
+import { useFileDrop } from "./hooks/useFileDrop";
 import { useAppState } from "./context/AppContext";
 
 const MIN_SIDEBAR_WIDTH = 160;
@@ -61,6 +62,7 @@ function AppLayout() {
 
   useConfig();
   useKeyboardShortcuts();
+  useFileDrop(state.activeSessionId);
 
   return (
     <div className="flex h-screen w-screen flex-col">

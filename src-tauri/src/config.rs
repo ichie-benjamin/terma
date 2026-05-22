@@ -69,6 +69,41 @@ fn config_path() -> PathBuf {
     config_dir().join("config.json")
 }
 
+fn sessions_dir() -> PathBuf {
+    config_dir().join("sessions")
+}
+
+fn session_content_path(session_id: &str) -> PathBuf {
+    // Session ids are uuids; strip anything but safe chars defensively so a
+    // crafted id can't escape the sessions directory.
+    let safe: String = session_id
+        .chars()
+        .filter(|c| c.is_alphanumeric() || *c == '-' || *c == '_')
+        .collect();
+    sessions_dir().join(format!("{}.log", safe))
+}
+
+pub fn save_session_content(session_id: &str, content: &str) -> Result<(), String> {
+    fs::create_dir_all(sessions_dir()).map_err(|e| e.to_string())?;
+    fs::write(session_content_path(session_id), content).map_err(|e| e.to_string())
+}
+
+pub fn load_session_content(session_id: &str) -> Result<Option<String>, String> {
+    let path = session_content_path(session_id);
+    if !path.exists() {
+        return Ok(None);
+    }
+    fs::read_to_string(&path).map(Some).map_err(|e| e.to_string())
+}
+
+pub fn delete_session_content(session_id: &str) -> Result<(), String> {
+    let path = session_content_path(session_id);
+    if path.exists() {
+        fs::remove_file(&path).map_err(|e| e.to_string())?;
+    }
+    Ok(())
+}
+
 impl Default for TermaConfig {
     fn default() -> Self {
         Self {

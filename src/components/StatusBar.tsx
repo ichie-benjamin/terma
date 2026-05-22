@@ -1,7 +1,9 @@
 import { useAppState } from "../context/AppContext";
+import { useUpdater } from "../hooks/useUpdater";
 
 export default function StatusBar() {
   const { state } = useAppState();
+  const { available, version, downloading, progress, installUpdate } = useUpdater();
 
   const activeItem = state.projects
     .flatMap((p) => p.sessions.map((s) => ({ project: p, session: s })))
@@ -26,11 +28,26 @@ export default function StatusBar() {
           <span className="text-[var(--text-dim)]">Terma</span>
         )}
       </div>
-      {totalSessions > 0 && (
-        <span className="text-[var(--text-dim)]">
-          {totalSessions} session{totalSessions !== 1 ? "s" : ""}
-        </span>
-      )}
+      <div className="flex items-center gap-[8px]">
+        {available && (
+          <button
+            className="flex items-center gap-[4px] text-[var(--accent)] hover:underline"
+            onClick={installUpdate}
+            disabled={downloading}
+          >
+            {downloading ? (
+              <span>Updating… {Math.round(progress)}%</span>
+            ) : (
+              <span>Update v{version}</span>
+            )}
+          </button>
+        )}
+        {totalSessions > 0 && (
+          <span className="text-[var(--text-dim)]">
+            {totalSessions} session{totalSessions !== 1 ? "s" : ""}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

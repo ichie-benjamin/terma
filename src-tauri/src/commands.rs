@@ -63,7 +63,19 @@ pub fn close_session(
     session_id: String,
     pty_manager: State<'_, PtyManager>,
 ) -> Result<(), String> {
+    // Closing a session discards its saved scrollback so it isn't restored later.
+    let _ = config::delete_session_content(&session_id);
     pty_manager.close_session(&session_id)
+}
+
+#[tauri::command]
+pub fn save_session_content(session_id: String, content: String) -> Result<(), String> {
+    config::save_session_content(&session_id, &content)
+}
+
+#[tauri::command]
+pub fn load_session_content(session_id: String) -> Result<Option<String>, String> {
+    config::load_session_content(&session_id)
 }
 
 #[tauri::command]
